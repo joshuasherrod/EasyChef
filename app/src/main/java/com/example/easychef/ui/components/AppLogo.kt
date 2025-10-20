@@ -17,7 +17,7 @@ import com.example.easychef.R
 @Composable
 fun AppLogo(modifier: Modifier, appVer: Boolean) {
     val logo: Painter = if (!appVer) {
-        painterResource(id = R.drawable.easycheflogo_v1)
+        painterResource(id = R.drawable.logoandname)
     } else {
         painterResource(id = R.drawable.appver2)
     }
