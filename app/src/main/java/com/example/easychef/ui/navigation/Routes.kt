@@ -9,3 +9,8 @@ object LoginScreen
 data class HomeScreen(
     val id: String
 )
+
+@Serializable
+data class Preferences(
+    val id: String
+)

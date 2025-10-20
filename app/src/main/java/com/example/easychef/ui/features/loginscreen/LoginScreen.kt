@@ -1,5 +1,6 @@
-package com.example.easychef.ui.features.LoginScreen
+package com.example.easychef.ui.features.loginscreen
 
+import android.preference.PreferenceScreen
 import com.example.easychef.ui.components.AppLogo
 import com.example.easychef.ui.components.TextBox
 import com.example.easychef.ui.components.Button
@@ -11,11 +12,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -23,7 +22,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 
 @Composable
-fun LoginScreen(onGoToHome: (String) -> Unit) {
+fun LoginScreen(onGoToHome: (String) -> Unit, onGoToPreferenceScreen: (String) -> Unit) {
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
 
@@ -35,8 +34,8 @@ fun LoginScreen(onGoToHome: (String) -> Unit) {
     ) {
         AppLogo(
             modifier = Modifier
-                .clip(RoundedCornerShape(24.dp))
                 .wrapContentSize(),
+            appVer = false
         )
         Spacer(modifier = Modifier.height(30.dp))
         TextBox(modifier = Modifier
@@ -58,11 +57,12 @@ fun LoginScreen(onGoToHome: (String) -> Unit) {
         ) {
             // TODO: Use auth to process information and clear fields, and use SnackBar to inform user when fields are incorrect/missing
             Button(onClick = {
-                // Temporary String for testing navigation, replace with the SupaBase Auth so their homepage has their data
+                // Temporary strings for testing navigation, replace with the SupaBase Auth so their homepage/preferences has their data
                 onGoToHome("TestID")
             }, text = "Log In")
             Button(onClick = {
-                // TODO: Similar to LogIn, except add a route to FirstTimeSetup
+                // Add a conditional that will not call the nav to preferences screen if user/pass combo is already valid in the DB
+                onGoToPreferenceScreen("TestID")
             }, text = "Sign Up")
         }
         Spacer(modifier = Modifier.height(100.dp))
