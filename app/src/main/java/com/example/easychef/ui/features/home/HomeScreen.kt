@@ -16,7 +16,7 @@ import com.example.easychef.ui.components.Button
 
 @Composable
 fun HomeScreen(id: String) {
-    //TODO: Hook up Supabase user data using 'id'
+    //TODO:Hook up Supabase user data using 'id'
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
@@ -29,11 +29,14 @@ fun HomeScreen(id: String) {
 
         Spacer(modifier = Modifier.height(20.dp))
 
-        // Aiden's custom button component
+        //Aidan's custom button thingie
+        //add colors
         Button(text = "Go to Pantry", onClick = {
-            //TODO: Navigate to pantry screen later
+            //TODO:Navigate to pantry screen later
+            //TODO: Navigate to preferences
         })
     }
+
 }
 
 @Preview(showBackground = true)
