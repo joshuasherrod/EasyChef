@@ -8,33 +8,59 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.example.easychef.ui.features.loginscreen.LoginScreen
 import com.example.easychef.ui.features.home.HomeScreen
-import com.example.easychef.ui.navigation.Preferences
-import com.example.easychef.ui.navigation.HomeScreen as HomeScreenRoute
+import com.example.easychef.ui.features.pantry.PantryScreen
+
+// Alias route classes to avoid name clashes with composables
 import com.example.easychef.ui.navigation.LoginScreen as LoginScreenRoute
+import com.example.easychef.ui.navigation.HomeScreen as HomeScreenRoute
 import com.example.easychef.ui.navigation.Preferences as PreferencesRoute
+import com.example.easychef.ui.navigation.Pantry as PantryRoute
 
 @Composable
 fun AppNavHost(
     navController: NavHostController = rememberNavController()
+) {
+    NavHost(
+        navController = navController,
+        startDestination = LoginScreenRoute
     ) {
-    NavHost(navController, startDestination = LoginScreenRoute ) {
+
+        // LOGIN — pass the callbacks that LoginScreen expects
         composable<LoginScreenRoute> {
             LoginScreen(
-                onGoToHome = { id -> navController.navigate(HomeScreenRoute(id)) },
-                onGoToPreferenceScreen =  { id -> navController.navigate(PreferencesRoute(id))}
+                onGoToHome = { id ->
+                    navController.navigate(HomeScreenRoute(id))
+                },
+                onGoToPreferenceScreen = { id ->
+                    navController.navigate(PreferencesRoute(id))
+                }
             )
         }
-        composable<HomeScreenRoute> {
-            val args = it.toRoute<HomeScreenRoute>()
+
+        // HOME — provide the new pantry callback
+        composable<HomeScreenRoute> { backStackEntry ->
+            val args = backStackEntry.toRoute<HomeScreenRoute>()
             HomeScreen(
-                id = args.id
+                id = args.id,
+                onGoToPantry = { navController.navigate(PantryRoute) },
+                onGoToPreferences = { navController.navigate(PreferencesRoute(args.id)) }
             )
         }
-        composable<PreferencesRoute> {
-            val args = it.toRoute<PreferencesRoute>()
+
+        // PREFERENCES — it requires onGoToHome(String)
+        composable<PreferencesRoute> { backStackEntry ->
+            val args = backStackEntry.toRoute<PreferencesRoute>()
             com.example.easychef.ui.features.preferences.Preferences(
                 id = args.id,
                 onGoToHome = { id -> navController.navigate(HomeScreenRoute(id)) }
+            )
+        }
+
+
+        //Also DemoUser should be changed for with a user's ID later (logged in)
+        composable<PantryRoute> {
+            PantryScreen(
+                onBackToHome = { navController.popBackStack() }//Easier to return to screen
             )
         }
     }

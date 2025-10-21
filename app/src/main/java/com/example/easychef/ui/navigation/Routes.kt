@@ -14,3 +14,6 @@ data class HomeScreen(
 data class Preferences(
     val id: String
 )
+
+@Serializable
+object Pantry

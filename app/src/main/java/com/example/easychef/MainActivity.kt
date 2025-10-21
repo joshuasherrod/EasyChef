@@ -11,4 +11,5 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent { EasyChefApp() }
     }
+
 }
