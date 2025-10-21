@@ -29,7 +29,7 @@ fun AppNavHost(
         composable<LoginScreenRoute> {
             LoginScreen(
                 onGoToHome = { id ->
-                    navController.navigate(HomeScreenRoute(id))     // fixes: “Cannot infer value parameter 'id'”
+                    navController.navigate(HomeScreenRoute(id))
                 },
                 onGoToPreferenceScreen = { id ->
                     navController.navigate(PreferencesRoute(id))
@@ -42,7 +42,8 @@ fun AppNavHost(
             val args = backStackEntry.toRoute<HomeScreenRoute>()
             HomeScreen(
                 id = args.id,
-                onGoToPantry = { navController.navigate(PantryRoute) }
+                onGoToPantry = { navController.navigate(PantryRoute) },
+                onGoToPreferences = { navController.navigate(PreferencesRoute(args.id)) }
             )
         }
 
@@ -55,9 +56,12 @@ fun AppNavHost(
             )
         }
 
-        // PANTRY — simple destination
+
+        //Also DemoUser should be changed for with a user's ID later (logged in)
         composable<PantryRoute> {
-            PantryScreen()
+            PantryScreen(
+                onBackToHome = { navController.popBackStack() }//Easier to return to screen
+            )
         }
     }
 }

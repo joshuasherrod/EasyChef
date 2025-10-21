@@ -13,31 +13,30 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.easychef.ui.components.Button
+import androidx.compose.foundation.layout.Row
+
+
 
 @Composable
-fun HomeScreen(id: String,
-               onGoToPantry: () -> Unit = {} ) {
-    //TODO: Hook up Supabase user data using 'id'
+fun HomeScreen(
+    id: String,
+    onGoToPantry:()-> Unit = {},
+    onGoToPreferences:()-> Unit = {}
+) {
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(
-            text = "Welcome back, $id!",
-            style = MaterialTheme.typography.headlineSmall
-        )
+        Text("Welcome back, $id!", style = MaterialTheme.typography.headlineSmall)
+        Spacer(Modifier.height(20.dp))
 
-        Spacer(modifier = Modifier.height(20.dp))
-
-        // Aiden's custom button component
-        Button(
-            text = "Go to Pantry",
-            onClick = {onGoToPantry()}
-        )
+        Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+            Button(text = "Go to Pantry", onClick = onGoToPantry)
+            Button(text = "Preferences",  onClick = onGoToPreferences)
+        }
     }
 }
-
 @Preview(showBackground = true)
 @Composable
 fun HomeScreenPreview() {

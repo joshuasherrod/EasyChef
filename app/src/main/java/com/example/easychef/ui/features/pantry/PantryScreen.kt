@@ -10,8 +10,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.easychef.ui.components.Button
 
-@Composable
-fun PantryScreen() {
+@Composable //note, Unit = {} is a default empty lambda
+fun PantryScreen(onBackToHome: () -> Unit ={}) {
     var newItem by remember { mutableStateOf("") }
     val pantryItems = remember { mutableStateListOf<String>() }
 
@@ -21,27 +21,26 @@ fun PantryScreen() {
             .padding(24.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Top
+
     ) {
-        Text(
-            text = "Your Pantry",
-            style = MaterialTheme.typography.headlineMedium
-        )
+        Text("Your Pantry", style = MaterialTheme.typography.headlineMedium)
+        Spacer(Modifier.height(16.dp))
 
-        Spacer(modifier = Modifier.height(16.dp))
-
-        //this is just a placeholder green color, change to probably easychef orange
-        val buttonColor = Color(0xFF4CAF50) //green
+       //Easy Chef Orange Implemented, it's 0xFFFF7043
+        val addColor = Color(0xFFFF7043)
 
         Button(
-            text = "Add Example Item",
+            text = "Add",
             onClick = {
-                pantryItems.add("Ingredient ${pantryItems.size + 1}")
+                if (newItem.isNotBlank()) {
+                    pantryItems.add(newItem.trim())
+                    newItem = ""
+                }
             },
-            // If the button in ui components doesn’t take a color param yet, we’ll handle that next for that color
+            containerColor = addColor,
             modifier = Modifier
                 .fillMaxWidth()
                 .height(48.dp)
-                .padding(horizontal = 20.dp)
         )
 
         Spacer(modifier = Modifier.height(20.dp))
@@ -50,6 +49,16 @@ fun PantryScreen() {
             Text("- $item", style = MaterialTheme.typography.bodyLarge)
             Spacer(modifier = Modifier.height(4.dp))
         }
+        Spacer(modifier = Modifier.height(32.dp))
+
+        Button(
+            text = "Back to Home",
+            onClick = onBackToHome,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(48.dp)
+        )
+
     }
 }
 
