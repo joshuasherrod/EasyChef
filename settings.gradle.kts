@@ -1,14 +1,15 @@
 pluginManagement {
     repositories {
-        google {
-            content {
-                includeGroupByRegex("com\\.android.*")
-                includeGroupByRegex("com\\.google.*")
-                includeGroupByRegex("androidx.*")
+        gradlePluginPortal()
+        google()
+        mavenCentral()
+    }
+    resolutionStrategy {
+        eachPlugin {
+            if (requested.id.id == "com.google.devtools.ksp") {
+                useModule("com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin:${requested.version}")
             }
         }
-        mavenCentral()
-        gradlePluginPortal()
     }
 }
 dependencyResolutionManagement {
@@ -19,5 +20,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "EasyChef"
+rootProject.name = "EasyChefApp"
 include(":app")
