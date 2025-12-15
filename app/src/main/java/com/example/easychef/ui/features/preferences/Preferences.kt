@@ -11,8 +11,8 @@ import com.example.easychef.ui.components.Button
 import com.example.easychef.ui.components.DropDown
 @Composable
 fun Preferences(id: String, onGoToHome: (String) -> Unit) {
-    val dietOptions: List<String> = listOf("Test1", "Test2", "Test3")
-    val cuisineOptions: List<String> = listOf("Test1", "Test2", "Test3")
+    val dietOptions: List<String> = listOf("No Preference" ,"Vegetarian", "Vegan", "Pescatarian")
+    val cuisineOptions: List<String> = listOf("No Preference", "Mediterranean", "Mexican", "Italian", "Asian")
 
     var dietIsExpanded by remember { mutableStateOf(false) }
     var cuisineIsExpanded by remember { mutableStateOf(false) }
@@ -29,12 +29,12 @@ fun Preferences(id: String, onGoToHome: (String) -> Unit) {
             modifier = Modifier.wrapContentSize(),
             appVer = true
         )
-        Spacer(Modifier.height(32.dp))
+        Spacer(Modifier.height(20.dp))
         //Diet Section
             Text(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 24.dp, vertical = 8.dp),
+                    .padding(horizontal = 24.dp, vertical = 20.dp),
                 text = "Diet")
             DropDown(
                 list = dietOptions,
