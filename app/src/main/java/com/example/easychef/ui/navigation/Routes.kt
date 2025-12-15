@@ -1,6 +1,6 @@
 package com.example.easychef.ui.navigation
 
-import kotlinx.serialization.*
+import kotlinx.serialization.Serializable
 
 @Serializable
 object LoginScreen
@@ -17,3 +17,6 @@ data class Preferences(
 
 @Serializable
 object Pantry
+
+@Serializable
+object RecipeSearch

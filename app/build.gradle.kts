@@ -2,12 +2,13 @@ import java.util.Properties
 import java.io.FileInputStream
 
 plugins {
-    alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.kotlin.serialization)
-    alias(libs.plugins.hilt.android)
-    alias(libs.plugins.ksp)
-    alias(libs.plugins.compose.compiler)
+    id("com.android.application")
+    id("org.jetbrains.kotlin.android")
+    id("org.jetbrains.kotlin.plugin.compose")
+    id("org.jetbrains.kotlin.plugin.serialization")
+    id("com.google.dagger.hilt.android")
+    id("com.google.devtools.ksp")
+    id("org.jetbrains.kotlin.kapt")
 }
 
 val localProperties = Properties()
@@ -45,7 +46,7 @@ android {
         buildConfigField(
             "String",
             "SPOONACULAR_API_KEY",
-            "\"${project.findProperty("SPOONACULAR_API_KEY") ?: ""}\""
+            "\"${localProperties.getProperty("SPOONACULAR_API_KEY") ?: ""}\""
         )
     }
 
@@ -90,6 +91,8 @@ dependencies {
         implementation("androidx.compose.ui:ui-tooling-preview")
         debugImplementation("androidx.compose.ui:ui-tooling")
 
+        implementation("androidx.navigation:navigation-compose:2.8.0")
+
         implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.7")
         implementation("androidx.lifecycle:lifecycle-runtime-compose:2.8.7")
 
@@ -117,18 +120,27 @@ dependencies {
         implementation("com.squareup.retrofit2:retrofit:2.9.0")
         implementation("com.squareup.retrofit2:converter-gson:2.9.0")
 
-        // --- Hilt (no kapt, just ksp) ---
-        implementation("com.google.dagger:hilt-android:2.52")
-        ksp("com.google.dagger:hilt-compiler:2.52")
-        implementation("androidx.hilt:hilt-navigation-compose:1.3.0")
+    // --- Hilt core (app code) ---
+    implementation("com.google.dagger:hilt-android:2.52")
+    kapt("com.google.dagger:hilt-android-compiler:2.52")
 
-        // --- Coil ---
-        implementation("io.coil-kt:coil-compose:2.5.0")
+    // If you use navigation-compose for Hilt viewmodels:
+    implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
 
-        // --- Testing ---
-        testImplementation("junit:junit:4.13.2")
-        androidTestImplementation("androidx.test.ext:junit:1.2.1")
-        androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")
+    // --- Hilt testing (unit tests) ---
+    testImplementation("com.google.dagger:hilt-android-testing:2.52")
+    kaptTest("com.google.dagger:hilt-android-compiler:2.52")
+
+    // --- Hilt testing (instrumented / androidTest) ---
+    androidTestImplementation("com.google.dagger:hilt-android-testing:2.52")
+    kaptAndroidTest("com.google.dagger:hilt-android-compiler:2.52")
+
+    // --- Coil ---
+    implementation("io.coil-kt:coil-compose:2.5.0")
+    // --- Testing ---
+    testImplementation("junit:junit:4.13.2")
+    androidTestImplementation("androidx.test.ext:junit:1.2.1")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {

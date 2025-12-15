@@ -9,12 +9,15 @@ import androidx.navigation.toRoute
 import com.example.easychef.ui.features.loginscreen.LoginScreen
 import com.example.easychef.ui.features.home.HomeScreen
 import com.example.easychef.ui.features.pantry.PantryScreen
+import com.example.easychef.ui.features.preferences.Preferences
+import com.example.easychef.ui.features.recipesearch.RecipeSearchScreen
 
 // Alias route classes to avoid name clashes with composables
 import com.example.easychef.ui.navigation.LoginScreen as LoginScreenRoute
 import com.example.easychef.ui.navigation.HomeScreen as HomeScreenRoute
 import com.example.easychef.ui.navigation.Preferences as PreferencesRoute
 import com.example.easychef.ui.navigation.Pantry as PantryRoute
+import com.example.easychef.ui.navigation.RecipeSearch as RecipeSearchRoute
 
 @Composable
 fun AppNavHost(
@@ -43,7 +46,8 @@ fun AppNavHost(
             HomeScreen(
                 id = args.id,
                 onGoToPantry = { navController.navigate(PantryRoute) },
-                onGoToPreferences = { navController.navigate(PreferencesRoute(args.id)) }
+                onGoToPreferences = { id -> navController.navigate(PreferencesRoute(id)) },
+                onGoToRecipeSearch = { navController.navigate(RecipeSearchRoute) }
             )
         }
 
@@ -56,11 +60,16 @@ fun AppNavHost(
             )
         }
 
-
         //Also DemoUser should be changed for with a user's ID later (logged in)
         composable<PantryRoute> {
             PantryScreen(
-                onBackToHome = { navController.popBackStack() }//Easier to return to screen
+                onBackToHome = { navController.popBackStack() }
+            )
+        }
+        // Recipe Search
+        composable<RecipeSearchRoute> {
+            RecipeSearchScreen(
+                onBack = { navController.navigateUp() }
             )
         }
     }
